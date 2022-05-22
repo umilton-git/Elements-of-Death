@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     public bool smoothTransition = false;
     public float transitionSpeed = 10f;
     public float transitionRotationSpeed = 500f;
+    public AudioClip footStep;
+    public AudioSource audioS;
 
     Vector3 targetGridPos;
     Vector3 prevTargetGridPos;
@@ -56,10 +58,10 @@ public class PlayerController : MonoBehaviour
 
     public void RotateLeft() {if (AtRest) targetRotation -= Vector3.up * 90f; }
     public void RotateRight() {if (AtRest) targetRotation += Vector3.up * 90f; }
-    public void MoveForward() { if (AtRest && !Physics.Raycast(transform.position, forward, 1)) targetGridPos += transform.forward; }
-    public void MoveBackward() { if (AtRest && !Physics.Raycast(transform.position, backward, 1)) targetGridPos -= transform.forward; }
-    public void MoveLeft() { if (AtRest && !Physics.Raycast(transform.position, left, 1)) targetGridPos -= transform.right; }
-    public void MoveRight() { if (AtRest && !Physics.Raycast(transform.position, right, 1)) targetGridPos += transform.right; }
+    public void MoveForward() { if (AtRest && !Physics.Raycast(transform.position, forward, 1)) { targetGridPos += transform.forward; audioS.PlayOneShot(footStep); } }
+    public void MoveBackward() { if (AtRest && !Physics.Raycast(transform.position, backward, 1)) { targetGridPos -= transform.forward; audioS.PlayOneShot(footStep); } }
+    public void MoveLeft() { if (AtRest && !Physics.Raycast(transform.position, left, 1)) { targetGridPos -= transform.right; audioS.PlayOneShot(footStep); } }
+    public void MoveRight() { if (AtRest && !Physics.Raycast(transform.position, right, 1)) { targetGridPos += transform.right; audioS.PlayOneShot(footStep); } }
 
     bool AtRest {
         get{
